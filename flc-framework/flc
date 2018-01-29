@@ -1,0 +1,10 @@
+<?php
+use App\Console\Kernel;
+
+require_once __DIR__ . '/bootstrap.php';
+
+/**
+ * Console run
+ */
+$Kernel = new Kernel;
+$Kernel->run();

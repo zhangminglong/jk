@@ -1,0 +1,13 @@
+{
+    "require": {
+        "noahbuscher/macaw": "dev-master",
+        "illuminate/database": "^5.2",
+        "symfony/console": "^3.1",
+        "illuminate/events": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "riverslei/laravel-swagger",
+    "description": "在laravel5中使用swagger自动生成api接口文档",
+    "keywords": ["laravel", "swagger", "laravel swagger", "laravel5", "swagger-php", "documentation", "api"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "helei112g",
+            "email": "helei5200@126.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "zircote/swagger-php": "~1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Riverslei\\Swaggervel\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

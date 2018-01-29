@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><title>淘宝接口API开发</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+.note-content code {font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;}
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-12" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-47" class="wmd-preview-section preview-content">
+
+<h2 id="淘宝接口api开发">淘宝接口API开发</h2>
+
+<blockquote>
+  <p>访问案例：<a href="http://taobao.flc.ren/" target="_blank">http://taobao.flc.ren/</a> <br>
+  源码地址：<a href="https://github.com/flc1125/taobao-open-api" target="_blank">https://github.com/flc1125/taobao-open-api</a></p>
+</blockquote></div><div id="wmd-preview-section-34" class="wmd-preview-section preview-content">
+
+<h3 id="本次开发接口如下">本次开发接口如下：</h3>
+
+<table>
+<thead>
+<tr>
+  <th>接口名称</th>
+  <th>官方接口名称</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>获取前台展示的店铺内卖家自定义商品类目</td>
+  <td><code>taobao.sellercats.list.get</code></td>
+</tr>
+<tr>
+  <td>获取前台展示的店铺类目</td>
+  <td><code>taobao.shopcats.list.get</code></td>
+</tr>
+<tr>
+  <td>获取卖家店铺的基本信息</td>
+  <td><code>taobao.shop.get</code></td>
+</tr>
+<tr>
+  <td>淘宝客商品查询</td>
+  <td><code>taobao.tbk.item.get</code></td>
+</tr>
+<tr>
+  <td>淘宝客商品详情（简版）</td>
+  <td><code>taobao.tbk.item.info.get</code></td>
+</tr>
+<tr>
+  <td>淘宝客商品关联推荐查询</td>
+  <td><code>taobao.tbk.item.recommend.get</code></td>
+</tr>
+<tr>
+  <td>淘宝客店铺查询</td>
+  <td><code>taobao.tbk.shop.get</code></td>
+</tr>
+<tr>
+  <td>淘宝客店铺关联推荐查询</td>
+  <td><code>taobao.tbk.shop.recommend.get</code></td>
+</tr>
+</tbody></table>
+
+
+<blockquote>
+  <p>访问案例首页主要使用<code>taobao.tbk.item.get</code></p>
+</blockquote>
+
+</div><div id="wmd-preview-section-35" class="wmd-preview-section preview-content">
+
+<h3 id="文件及配置说明">文件及配置说明</h3>
+
+<ul><li><p>存放目录：将下载的<code>/Taobao/</code>整个文件夹放入<code>/ThinkPHP/Library/Com/</code>目录下；其中<code>Thinkphp</code>为官方核心目录</p></li>
+<li><p>配置文件所在目录：<code>/ThinkPHP/Library/Com/Taobao/Client.class.php</code>的<code>appkey</code>及<code>appsecret</code></p></li>
+</ul></div><div id="wmd-preview-section-29" class="wmd-preview-section preview-content">
+
+<h3 id="实例代码">实例代码</h3>
+
+</div><div id="wmd-preview-section-30" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-php hljs"><span class="hljs-comment line-number">1.</span><span class="hljs-preprocessor">&lt;?php</span><br><span class="hljs-comment line-number">2.</span><span class="hljs-comment">/**<br><span class="hljs-comment line-number">3.</span> * 淘宝API接口范例<br><span class="hljs-comment line-number">4.</span> *<br><span class="hljs-comment line-number">5.</span> * <span class="hljs-doctag">@author</span> Flc &lt;2016-03-14 02:14:37&gt;<br><span class="hljs-comment line-number">6.</span> * <span class="hljs-doctag">@link</span> http://flc.ren <br><span class="hljs-comment line-number">7.</span> */</span><br><span class="hljs-comment line-number">8.</span><span class="hljs-keyword">namespace</span> <span class="hljs-title">Home</span>\<span class="hljs-title">Controller</span>;<br><span class="hljs-comment line-number">9.</span><br><span class="hljs-comment line-number">10.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Think</span>\<span class="hljs-title">Controller</span>;<br><span class="hljs-comment line-number">11.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Client</span>;<br><span class="hljs-comment line-number">12.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoTbkItemGet</span>;  <span class="hljs-comment">// 淘宝客商品查询</span><br><span class="hljs-comment line-number">13.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoTbkItemRecommendGet</span>; <span class="hljs-comment">// 淘宝客商品关联推荐查询</span><br><span class="hljs-comment line-number">14.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoTbkItemInfoGet</span>; <span class="hljs-comment">// 淘宝客商品详情（简版）</span><br><span class="hljs-comment line-number">15.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoTbkShopGet</span>; <span class="hljs-comment">// 淘宝客店铺查询</span><br><span class="hljs-comment line-number">16.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoTbkShopRecommendGet</span>; <span class="hljs-comment">// 淘宝客店铺关联推荐查询</span><br><span class="hljs-comment line-number">17.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoShopcatsListGet</span>; <span class="hljs-comment">// 获取前台展示的店铺类目</span><br><span class="hljs-comment line-number">18.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoSellercatsListGet</span>; <span class="hljs-comment">// 获取前台展示的店铺内卖家自定义商品类目</span><br><span class="hljs-comment line-number">19.</span><span class="hljs-keyword">use</span> <span class="hljs-title">Com</span>\<span class="hljs-title">Taobao</span>\<span class="hljs-title">Request</span>\<span class="hljs-title">TaobaoShopGet</span>; <span class="hljs-comment">// 获取前台展示的店铺内卖家自定义商品类目</span><br><span class="hljs-comment line-number">20.</span><br><span class="hljs-comment line-number">21.</span><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IndexController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Controller</span> </span>{<br><span class="hljs-comment line-number">22.</span><br><span class="hljs-comment line-number">23.</span>    <span class="hljs-comment">/**<br><span class="hljs-comment line-number">24.</span>     * DEMO<br><span class="hljs-comment line-number">25.</span>     * <span class="hljs-doctag">@return</span> [type] [description]<br><span class="hljs-comment line-number">26.</span>     */</span><br><span class="hljs-comment line-number">27.</span>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span><span class="hljs-params">()</span><br><span class="hljs-comment line-number">28.</span>    </span>{<br><span class="hljs-comment line-number">29.</span>        <span class="hljs-variable">$req</span> = (<span class="hljs-keyword">new</span> TaobaoTbkItemGet)<br><span class="hljs-comment line-number">30.</span>            -&gt;setFields(<span class="hljs-string">'num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick'</span>)<br><span class="hljs-comment line-number">31.</span>            -&gt;setQ(<span class="hljs-string">"女装"</span>)<br><span class="hljs-comment line-number">32.</span>            -&gt;setCat(<span class="hljs-string">"16,18"</span>)<br><span class="hljs-comment line-number">33.</span>            -&gt;setSort(<span class="hljs-string">"_des"</span>);<br><span class="hljs-comment line-number">34.</span>        <span class="hljs-comment">/*$req = (new TaobaoTbkItemRecommendGet)<br><span class="hljs-comment line-number">35.</span>            -&gt;setFields('num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick')<br><span class="hljs-comment line-number">36.</span>            -&gt;setRelateType(1)<br><span class="hljs-comment line-number">37.</span>            -&gt;setCount(5)<br><span class="hljs-comment line-number">38.</span>            -&gt;setNumIid("6956495372");*/</span><br><span class="hljs-comment line-number">39.</span>        <span class="hljs-comment">/*$req = (new TaobaoTbkItemInfoGet)<br><span class="hljs-comment line-number">40.</span>            -&gt;setFields('num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick')<br><span class="hljs-comment line-number">41.</span>            -&gt;setNumIids("6956495372");*/</span><br><span class="hljs-comment line-number">42.</span>        <span class="hljs-comment">/*$req = (new TaobaoTbkShopGet)<br><span class="hljs-comment line-number">43.</span>            -&gt;setFields('user_id,shop_title,shop_type,seller_nick,pict_url,shop_url')<br><span class="hljs-comment line-number">44.</span>            -&gt;setQ("女装")<br><span class="hljs-comment line-number">45.</span>            -&gt;setSort("_des");*/</span><br><span class="hljs-comment line-number">46.</span>        <span class="hljs-comment">/*$req = (new TaobaoTbkShopRecommendGet)<br><span class="hljs-comment line-number">47.</span>            -&gt;setFields('user_id,shop_title,shop_type,seller_nick,pict_url,shop_url')<br><span class="hljs-comment line-number">48.</span>            -&gt;setUserId("663336865");*/</span><br><span class="hljs-comment line-number">49.</span>        <span class="hljs-comment">/*$req = (new TaobaoShopcatsListGet)-&gt;setFields('cid,parent_cid,name,is_parent');*/</span><br><span class="hljs-comment line-number">50.</span>        <span class="hljs-comment">/*$req = (new TaobaoSellercatsListGet)-&gt;setNick('jw原单服饰店');*/</span><br><span class="hljs-comment line-number">51.</span>        <span class="hljs-comment">/*$req = (new TaobaoShopGet)<br><span class="hljs-comment line-number">52.</span>            -&gt;setNick('jw原单服饰店')<br><span class="hljs-comment line-number">53.</span>            -&gt;setFields('sid,cid,title,nick,desc,bulletin,pic_path,created,modified');*/</span><br><span class="hljs-comment line-number">54.</span><br><span class="hljs-comment line-number">55.</span>        <span class="hljs-variable">$rs</span> = (<span class="hljs-keyword">new</span> Client)-&gt;execute(<span class="hljs-variable">$req</span>);<br><span class="hljs-comment line-number">56.</span>        print_r(<span class="hljs-variable">$rs</span>);<br><span class="hljs-comment line-number">57.</span>    }<br><span class="hljs-comment line-number">58.</span>}<br><span class="hljs-comment line-number">59.</span><span class="hljs-preprocessor">?&gt;</span><br></code></pre>
+
+</div><div id="wmd-preview-section-31" class="wmd-preview-section preview-content">
+
+<h3 id="其他说明">其他说明</h3>
+
+<ul><li>目前仅开发以上接口，其他接口暂时无权限；如需拓展，请在<code>/ThinkPHP/Library/Com/Taobao/Request/</code>下新增类</li>
+</ul></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

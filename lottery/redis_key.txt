@@ -1,0 +1,14 @@
+redis前缀：'lty:'
+
+奖品的库存key��lty:prize:inventory:{p_id}
+
+用户的抽奖机会key��lty:chance:{uid}:{today}
+
+今天是否初始化抽奖机会key��lty:ischance:{uid}:{today}
+
+用户信息key��lty:userinfo:{uid}
+
+今天是否中奖key��lty:iswinning:{uid}:{today}
+
+token对应的uid信息 lty:token:{token}
+uid
